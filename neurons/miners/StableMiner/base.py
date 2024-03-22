@@ -33,7 +33,7 @@ class BaseMiner(ABC):
     def __init__(self):
         #### Parse the config
         self.config = self.get_config()
-
+        output_log(f"config : {self.config}", type="debug")
         self.wandb = None
 
         if self.config.logging.debug:
@@ -254,7 +254,7 @@ class BaseMiner(ABC):
         """
         Image generation logic shared between both text-to-image and image-to-image
         """
-
+        output_log(f"Request generate image {synapse}", type="debug")
         ### Misc
         timeout = synapse.timeout
         self.stats.total_requests += 1
@@ -298,7 +298,7 @@ class BaseMiner(ABC):
                     torch.Generator(device=self.config.miner.device).manual_seed(seed)
                 ]
                 images = model(**local_args).images
-                
+
                 synapse.images = [
                     bt.Tensor.serialize(self.transform(image)) for image in images
                 ]
