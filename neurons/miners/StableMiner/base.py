@@ -113,11 +113,11 @@ class BaseMiner(ABC):
                 external_ip=bt.utils.networking.get_external_ip(),
                 config=self.config
             )
-            # .attach(
-            #     forward_fn=self.is_alive,
-            #     blacklist_fn=self.blacklist_is_alive,
-            #     priority_fn=self.priority_is_alive,
-            # )
+            .attach(
+                forward_fn=self.is_alive,
+                blacklist_fn=self.blacklist_is_alive,
+                priority_fn=self.priority_is_alive,
+            )
             .attach(
                 forward_fn=self.generate_image,
                 blacklist_fn=self.blacklist_image_generation,
