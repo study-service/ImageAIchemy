@@ -255,7 +255,7 @@ class BaseMiner(ABC):
         """
         Image generation logic shared between both text-to-image and image-to-image
         """
-        bt.logging.info(f"Request generate image {synapse}", type="debug")
+        bt.logging.info(f"Request generate image {synapse}")
         ### Misc
         timeout = synapse.timeout
         self.stats.total_requests += 1
