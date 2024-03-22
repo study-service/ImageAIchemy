@@ -33,7 +33,7 @@ class BaseMiner(ABC):
     def __init__(self):
         #### Parse the config
         self.config = self.get_config()
-        output_log(f"config : {self.config}", type="debug")
+        bt.logging.info(f"config : {self.config}")
         self.wandb = None
 
         if self.config.logging.debug:
@@ -61,6 +61,7 @@ class BaseMiner(ABC):
 
         #### Initialise event dict
         self.event = {}
+
 
         #### Establish subtensor connection
         output_log("Establishing subtensor connection.", "g", type="debug")
