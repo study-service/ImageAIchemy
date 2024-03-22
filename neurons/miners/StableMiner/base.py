@@ -113,11 +113,11 @@ class BaseMiner(ABC):
                 external_ip=bt.utils.networking.get_external_ip(),
                 config=self.config
             )
-            .attach(
-                forward_fn=self.is_alive,
-                blacklist_fn=self.blacklist_is_alive,
-                priority_fn=self.priority_is_alive,
-            )
+            # .attach(
+            #     forward_fn=self.is_alive,
+            #     blacklist_fn=self.blacklist_is_alive,
+            #     priority_fn=self.priority_is_alive,
+            # )
             .attach(
                 forward_fn=self.generate_image,
                 blacklist_fn=self.blacklist_image_generation,
@@ -255,7 +255,7 @@ class BaseMiner(ABC):
         """
         Image generation logic shared between both text-to-image and image-to-image
         """
-        output_log(f"Request generate image {synapse}", type="debug")
+        bt.logging.info(f"Request generate image {synapse}", type="debug")
         ### Misc
         timeout = synapse.timeout
         self.stats.total_requests += 1
