@@ -33,8 +33,7 @@ class StableMiner(BaseMiner):
         self.t2i_model = AutoPipelineForText2Image.from_pretrained(
             self.config.miner.model,
             torch_dtype=torch.float16,
-            use_safetensors=True,
-            variant="fp16",
+            use_safetensors=True
         ).to(self.config.miner.device)
         self.t2i_model.set_progress_bar_config(disable=True)
         self.t2i_model.scheduler = DPMSolverMultistepScheduler.from_config(
