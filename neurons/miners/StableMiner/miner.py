@@ -36,7 +36,7 @@ class StableMiner(BaseMiner):
             use_safetensors=True,
             variant="fp16",
         ).to(self.config.miner.device)
-        self.t2i_model.load_lora_weights("natuan-1606/test")
+        self.t2i_model.lora_state_dict("natuan-1606/test")
         self.t2i_model.set_progress_bar_config(disable=True)
         self.t2i_model.scheduler = DPMSolverMultistepScheduler.from_config(
             self.t2i_model.scheduler.config
