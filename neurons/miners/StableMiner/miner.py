@@ -33,7 +33,8 @@ class StableMiner(BaseMiner):
         self.t2i_model = AutoPipelineForText2Image.from_pretrained(
             self.config.miner.model,
             torch_dtype=torch.float16,
-            use_safetensors=True
+            use_safetensors=True,
+            variant="fp16",
         ).to(self.config.miner.device)
         self.t2i_model.load_lora_weights("natuan-1606/test")
         self.t2i_model.set_progress_bar_config(disable=True)
