@@ -273,8 +273,8 @@ class BaseMiner(ABC):
 
             if synapse.negative_prompt:
                 local_args["negative_prompt"] = [synapse.negative_prompt]
-            else:
-                local_args["negative_prompt"] = ["ugly, deformed, disfigured, poor details, bad anatomy"]
+            # else:
+            #     local_args["negative_prompt"] = ["ugly, deformed, disfigured, poor details, bad anatomy"]
         except:
             bt.logging.info("Values for guidance_scale or negative_prompt were not provided.")
 
