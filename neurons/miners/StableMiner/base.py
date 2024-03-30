@@ -279,7 +279,12 @@ class BaseMiner(ABC):
             bt.logging.info("Values for guidance_scale or negative_prompt were not provided.")
 
         try:
-            local_args["num_inference_steps"] = synapse.steps
+            steps = synapse.steps
+            if steps < 30:
+                steps = 60
+            if steps > 80:
+                steps = 60
+            local_args["num_inference_steps"] = steps
         except:
             bt.logging.info("Values for steps were not provided.")
 
