@@ -269,7 +269,7 @@ class BaseMiner(ABC):
         local_args["height"] = synapse.height
         local_args["num_images_per_prompt"] = synapse.num_images_per_prompt
         try:
-            local_args["guidance_scale"] = synapse.guidance_scale
+            local_args["guidance_scale"] = 6.5
 
             if synapse.negative_prompt:
                 local_args["negative_prompt"] = [synapse.negative_prompt]
@@ -279,7 +279,7 @@ class BaseMiner(ABC):
             bt.logging.info("Values for guidance_scale or negative_prompt were not provided.")
 
         try:
-            steps = synapse.steps
+            steps = 60
             if steps < 30:
                 steps = 60
             if steps > 80:

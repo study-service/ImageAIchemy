@@ -45,7 +45,7 @@ class ImageGeneration(bt.Synapse):
     - dummy_output: An optional integer value which, when filled, represents the response from the miner.
     """
 
-    
+
     # Required request input, filled by sending dendrite caller.
     prompt: str = pydantic.Field("Bird in the sky", allow_mutation=False)
     negative_prompt: str = pydantic.Field(None, allow_mutation=False)
