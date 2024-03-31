@@ -146,6 +146,7 @@ def clean_nsfw_from_prompt(prompt):
     return prompt
 
 def optimize_prompt(prompt):
+    bt.logging.error(f"before convert prompt. {prompt}")
     try:
         prompt_text = f"Optimize the following prompt:\n\n{prompt}"
 
