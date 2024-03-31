@@ -23,6 +23,7 @@ from utils import (
     nsfw_image_filter,
     output_log,
     sh,
+    optimize_prompt
 )
 from wandb_utils import WandbUtils
 
@@ -263,13 +264,13 @@ class BaseMiner(ABC):
 
         ### Set up args
         local_args = copy.deepcopy(self.mapping[synapse.generation_type]["args"])
-        local_args["prompt"] = [clean_nsfw_from_prompt(synapse.prompt)]
+        local_args["prompt"] = [optimize_prompt(clean_nsfw_from_prompt(synapse.prompt))]
         #local_args["prompt"] = [local_args["prompt"] + t for t in [", highly realistic", ", artsy", ", trending"]]
         local_args["width"] = synapse.width
         local_args["height"] = synapse.height
         local_args["num_images_per_prompt"] = synapse.num_images_per_prompt
         try:
-            local_args["guidance_scale"] = 6.5
+            local_args["guidance_scale"] = synapse.guidance_scale
 
             if synapse.negative_prompt:
                 local_args["negative_prompt"] = [synapse.negative_prompt]
@@ -279,7 +280,7 @@ class BaseMiner(ABC):
             bt.logging.info("Values for guidance_scale or negative_prompt were not provided.")
 
         try:
-            steps = 60
+            steps = synapse.steps
             if steps < 30:
                 steps = 60
             if steps > 80:
@@ -358,6 +359,7 @@ class BaseMiner(ABC):
             color_key="y",
         )
         return synapse
+
 
     def _base_priority(self, synapse) -> float:
         ### If hotkey or coldkey is whitelisted and not found on the metagraph, give a priority of 5,000

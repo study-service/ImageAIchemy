@@ -12,7 +12,11 @@ from neurons.utils import COLORS, output_log, sh
 
 import bittensor as bt
 
+import openai
 
+# Set your OpenAI API key
+api_key = ""
+openai.api_key = api_key
 #### Wrapper for the raw images
 class Images:
     def __init__(self, images):
@@ -139,4 +143,25 @@ def clean_nsfw_from_prompt(prompt):
         if re.search(r"\b{}\b".format(word), prompt):
             prompt = re.sub(r"\b{}\b".format(word), "", prompt).strip()
             bt.logging.debug(f"Removed NSFW word {word.strip()} from prompt...")
+    return prompt
+
+def optimize_prompt(prompt):
+    try:
+        prompt_text = f"Optimize the following prompt:\n\n{prompt}"
+
+        # Define parameters for the completion
+        response = openai.Completion.create(
+            engine="text-davinci-002",
+            prompt=prompt_text,
+            max_tokens=100,
+            n=1,
+            stop=None,
+            temperature=0.7)
+
+        # Extract the optimized prompt from the response
+        optimized_prompt = response.choices[0].text.strip()
+        return optimized_prompt
+    except Exception as e:
+        bt.logging.error(f"Error trying to promt. {e}")
+
     return prompt
