@@ -12,11 +12,14 @@ from neurons.utils import COLORS, output_log, sh
 
 import bittensor as bt
 
-import openai
+
 
 # Set your OpenAI API key
 api_key = ""
-openai.api_key = api_key
+from openai import OpenAI
+client = OpenAI(
+    api_key=api_key  # this is also the default, it can be omitted
+)
 #### Wrapper for the raw images
 class Images:
     def __init__(self, images):
@@ -146,22 +149,20 @@ def clean_nsfw_from_prompt(prompt):
     return prompt
 
 def optimize_prompt(prompt):
-    bt.logging.error(f"before convert prompt. {prompt}")
+    bt.logging.debug(f"before convert prompt. {prompt}")
     try:
         prompt_text = f"Optimize the following prompt:\n\n{prompt}"
-
-        # Define parameters for the completion
-        response = openai.Completion.create(
-            engine="text-davinci-002",
-            prompt=prompt_text,
-            max_tokens=100,
-            n=1,
-            stop=None,
-            temperature=0.7)
-
-        # Extract the optimized prompt from the response
-        optimized_prompt = response.choices[0].text.strip()
-        return optimized_prompt
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt_text,
+                }
+            ],
+            model="gpt-3.5-turbo",
+        )
+        bt.logging.debug(f"response gpt. {chat_completion}")
+        return chat_completion.choices[0].message.content.strip()
     except Exception as e:
         bt.logging.error(f"Error trying to promt. {e}")
 
