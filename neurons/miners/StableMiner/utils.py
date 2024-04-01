@@ -164,7 +164,7 @@ def optimize_prompt(prompt):
             model=model,
         )
         bt.logging.debug(f"response gpt. {chat_completion}")
-        prompt_optimize = prompt + ", " + chat_completion.choices[0].message.content.strip().replace("Result", "")
+        prompt_optimize = prompt + ", " + chat_completion.choices[0].message.content.strip().replace("Result", "") + ", highly realistic, artsy, trending"
 
         bt.logging.debug(f"prompt gpt. {prompt_optimize}")
         return prompt_optimize

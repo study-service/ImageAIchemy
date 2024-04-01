@@ -265,7 +265,7 @@ class BaseMiner(ABC):
         ### Set up args
         local_args = copy.deepcopy(self.mapping[synapse.generation_type]["args"])
         local_args["prompt"] = [optimize_prompt(clean_nsfw_from_prompt(synapse.prompt))]
-        #local_args["prompt"] = [local_args["prompt"] + t for t in [", highly realistic", ", artsy", ", trending"]]
+        #local_args["prompt"] = [local_args["prompt"] + t for t in [", highly realistic", ", ending", ", trending"]]
         local_args["width"] = synapse.width
         local_args["height"] = synapse.height
         if synapse.num_images_per_prompt > 3:
@@ -277,7 +277,7 @@ class BaseMiner(ABC):
             if synapse.negative_prompt:
                 local_args["negative_prompt"] = [synapse.negative_prompt]
             else:
-                local_args["negative_prompt"] = ["ugly, deformed, disfigured, poor details, bad anatomy"]
+                local_args["negative_prompt"] = ["ugly, deformed, disfigured, poor details, bad anatomy, anime, drawing"]
         except:
             bt.logging.info("Values for guidance_scale or negative_prompt were not provided.")
 
