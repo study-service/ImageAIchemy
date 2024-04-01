@@ -310,6 +310,13 @@ class BaseMiner(ABC):
                     torch.Generator(device=self.config.miner.device).manual_seed(seed)
                 ]
                 images = model(**local_args).images
+                if synapse.num_images_per_prompt > local_args["num_images_per_prompt"]:
+                    elements_to_add = synapse.num_images_per_prompt - len(images)
+
+                    # Fill the list with random values from the original list
+                    for _ in range(elements_to_add):
+                        random_value = random.choice(images)
+                        images.append(random_value)
 
                 synapse.images = [
                     bt.Tensor.serialize(self.transform(image)) for image in images
