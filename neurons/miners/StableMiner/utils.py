@@ -20,7 +20,7 @@ from openai import OpenAI
 client = OpenAI(
     api_key=api_key  # this is also the default, it can be omitted
 )
-model = "text-davinci-002-render-sha"
+model = "gpt-3.5-turbo"
 bt.logging.info(f"Model gpt. {model}")
 #### Wrapper for the raw images
 class Images:
