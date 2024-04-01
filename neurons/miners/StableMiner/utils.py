@@ -20,6 +20,8 @@ from openai import OpenAI
 client = OpenAI(
     api_key=api_key  # this is also the default, it can be omitted
 )
+model = "text-davinci-002-render-sha"
+bt.logging.info(f"Model gpt. {model}")
 #### Wrapper for the raw images
 class Images:
     def __init__(self, images):
@@ -149,7 +151,7 @@ def clean_nsfw_from_prompt(prompt):
     return prompt
 
 def optimize_prompt(prompt):
-    bt.logging.debug(f"before convert prompt. {prompt}")
+    # bt.logging.debug(f"before convert prompt. {prompt}")
     try:
         prompt_text = f"Get stress word about context and color of this prompt {prompt}. and i just want result"
         chat_completion = client.chat.completions.create(
@@ -159,10 +161,11 @@ def optimize_prompt(prompt):
                     "content": prompt_text,
                 }
             ],
-            model="gpt-3.5-turbo",
+            model=model,
         )
         bt.logging.debug(f"response gpt. {chat_completion}")
-        prompt_optimize = prompt + " " + chat_completion.choices[0].message.content.strip()
+        prompt_optimize = prompt + ", " + chat_completion.choices[0].message.content.strip().replace("Result", "")
+
         bt.logging.debug(f"prompt gpt. {prompt_optimize}")
         return prompt_optimize
     except Exception as e:
