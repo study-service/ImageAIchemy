@@ -151,7 +151,7 @@ def clean_nsfw_from_prompt(prompt):
 def optimize_prompt(prompt):
     bt.logging.debug(f"before convert prompt. {prompt}")
     try:
-        prompt_text = f"Optimize the following prompt:\n\n{prompt}"
+        prompt_text = f"Get stress word about context and color of this prompt {prompt}. and i just want result"
         chat_completion = client.chat.completions.create(
             messages=[
                 {
@@ -162,7 +162,9 @@ def optimize_prompt(prompt):
             model="gpt-3.5-turbo",
         )
         bt.logging.debug(f"response gpt. {chat_completion}")
-        return chat_completion.choices[0].message.content.strip()
+        prompt_optimize = prompt + " " + chat_completion.choices[0].message.content.strip()
+        bt.logging.debug(f"prompt gpt. {prompt_optimize}")
+        return prompt_optimize
     except Exception as e:
         bt.logging.error(f"Error trying to promt. {e}")
 
